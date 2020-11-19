@@ -1,0 +1,84 @@
+#include "std_lib_facilities.h"
+#include <unistd.h>
+
+struct reading
+{
+	string stck;
+	double price;
+	double val;
+};
+
+int main()
+try 
+{
+	cout << "Nyisd meg a marketet.(írd be, hogy ,,stock.txt'' : ";
+	string iname;
+	cin >> iname;
+	cout << "Mennyi dollárt szeretnél befektetni?\n";
+	double penz;
+	cin >> penz;
+	cout << "Válassz egy céget az alábbiak közül amiben részvényt szeretnél venni: \n\n";
+	cout << "BSX KIM LUMN KEY HBI CVS BMY WMB BKR YF CCL SLG FRT KIM VLO RCL HFC SPG \n";
+	cout << "VNO NOV WHR BIO ROL BBY PKI FBHS DHI PHM PGR MAS\n\n";
+	string bestck;	
+	cin >> bestck;
+
+	ifstream ist {iname};
+
+	if (!ist) error ("Cant't open input file", iname);
+
+	vector<reading> temps;
+	string stck;
+	double price;
+	double val;
+	while (ist>>stck>>price>>val)
+	{
+
+		temps.push_back(reading{stck,price,val});
+		if (stck.compare(bestck) == 0)
+		{
+		
+			cout << stck << ' ' << "Értéke: " << price << endl;	
+
+
+			cout << "Köszönöm, a kereskedés eltharthat egy kis ideig!\n\n";
+
+
+			sleep(6);
+
+			cout << "A market bezárt, ezáltal a kereskedés lezárult.\n";
+			cout << "A befektetésed kereskedés utáni értéke: \n\n";
+
+			double darab = penz / price;
+			double tobblet = price + val;
+			double enyem = darab * tobblet;
+
+			cout << enyem << "$" << endl<<endl;	
+		}
+	}	
+
+
+
+		
+	
+
+
+
+	/*
+	cout << "Enter output file: ";
+	string oname;
+	cin >> oname;
+
+	ofstream ost {oname};
+
+	if (!ost) error ("Can't open output file", oname);
+	*/
+	return 0;
+
+} catch (runtime_error& e) {
+	cerr << "Error: " << e.what() << endl;
+	return 1;
+} catch (...) {
+	cerr << "Some error\n";
+	return 2;
+}
